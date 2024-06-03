@@ -61,13 +61,13 @@ public class CcpPubSubStarter {
 			if(e.getCause() instanceof com.google.api.gax.rpc.NotFoundException) {
 				RuntimeException ex = new RuntimeException("Topic still has not been created: " + this.topic.name);
 				CcpJsonRepresentation json = new CcpJsonRepresentation(ex);
-				CcpJsonRepresentation renameKey = json.renameKey("message", "msg");
+				CcpJsonRepresentation renameKey = json.renameField("message", "msg");
 				CcpJsonRepresentation execute = this.notifyError.apply(renameKey);
 				this.notifyError.apply(execute);
 			}
 		} catch (Throwable e) {
 			CcpJsonRepresentation json = new CcpJsonRepresentation(e);
-			CcpJsonRepresentation renameKey = json.renameKey("message", "msg");
+			CcpJsonRepresentation renameKey = json.renameField("message", "msg");
 			CcpJsonRepresentation execute = this.notifyError.apply(renameKey);
 			this.notifyError.apply(execute);
 		} finally {
