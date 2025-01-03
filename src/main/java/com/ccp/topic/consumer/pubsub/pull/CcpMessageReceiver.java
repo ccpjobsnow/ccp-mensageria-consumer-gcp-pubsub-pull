@@ -2,7 +2,7 @@ package com.ccp.topic.consumer.pubsub.pull;
 
 import java.util.function.Function;
 
-import com.ccp.constantes.CcpConstants;
+import com.ccp.constantes.CcpOtherConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.especifications.db.utils.CcpEntity;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
@@ -48,7 +48,7 @@ public class CcpMessageReceiver implements MessageReceiver {
 //						);
 //				task.apply(mdMessage);
 			} catch (Throwable e) {
-				CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put("topic", this.name).put("values", mdMessage);
+				CcpJsonRepresentation put = CcpOtherConstants.EMPTY_JSON.put("topic", this.name).put("values", mdMessage);
 				throw new RuntimeException(put.asPrettyJson(), e);
 			}
 			consumer.ack();
