@@ -54,8 +54,8 @@ public class CcpMessageReceiver implements MessageReceiver {
 			consumer.ack();
 		} catch (Throwable e) {
 			CcpJsonRepresentation json = new CcpJsonRepresentation(e);
-			CcpJsonRepresentation renameKey = json.renameField("message", "msg");
-			CcpJsonRepresentation execute = this.notifyError.apply(renameKey);
+			
+			CcpJsonRepresentation execute = this.notifyError.apply(json);
 			this.notifyError.apply(execute);
 			consumer.nack();
 		}
