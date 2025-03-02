@@ -40,7 +40,7 @@ public class CcpPubSubStarter {
 		return environmentVariablesOrClassLoaderOrFile;
 	}
 		
-	public void synchronizeMessages() {
+	public CcpPubSubStarter synchronizeMessages() {
 		
 		Subscriber subscriber = null;
 		try {
@@ -57,6 +57,7 @@ public class CcpPubSubStarter {
 			subscriber = setExecutorProvider.build(); 
 			subscriber.startAsync();
 			subscriber.awaitTerminated();
+			return this;
 		}catch (IllegalStateException e) {
 			if(e.getCause() instanceof com.google.api.gax.rpc.NotFoundException) {
 				RuntimeException ex = new RuntimeException("Topic still has not been created: " + this.topic.name);
@@ -65,11 +66,13 @@ public class CcpPubSubStarter {
 				CcpJsonRepresentation execute = this.notifyError.apply(json);
 				this.notifyError.apply(execute);
 			}
+			return this;
 		} catch (Throwable e) {
 			CcpJsonRepresentation json = new CcpJsonRepresentation(e);
 			
 			CcpJsonRepresentation execute = this.notifyError.apply(json);
 			this.notifyError.apply(execute);
+			return this;
 		} finally {
 			if (subscriber != null) {
 				subscriber.stopAsync();
